@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.index');
+        $categories = Category::all();
+        if ($request->ajax) {
+            return DataTables::of($categories)->make(true);
+        }
     }
 
     public function create()
@@ -19,7 +24,19 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        return $request->all();
+        $request->validate(
+            [
+                'name' => 'required|min:3|max:30',
+                'type' => 'required',
+            ]
+        );
+
+        Category::create([
+            'name' => $request->name,
+            'type' => $request->type,
+        ]);
+
+        return response()->json(['message' => 'Success Add Category'], 200);
     }
 
 
