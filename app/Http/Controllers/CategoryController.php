@@ -11,8 +11,10 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::all();
-        if ($request->ajax) {
-            return DataTables::of($categories)->make(true);
+        if ($request->ajax()) {
+            return DataTables::of($categories)->addColumn('action', function () {
+                return  '<a href class="btn btn-info">Edit</a>';
+            })->rawColumns(['action'])->make(true);
         }
     }
 

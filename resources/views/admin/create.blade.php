@@ -9,14 +9,14 @@
 
 
         <div class="container mt-4">
-            <table class="table" id="category-table">
+            <table class="table" id="categories">
                 {{-- <caption>List Categories</caption> --}}
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Type</th>
-                        {{-- <th scope="col">Action</th> --}}
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,17 +66,23 @@
     <script>
         $(document).ready(function() {
 
-            $('#category-table').DataTable({
+            $('#categories').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '/categories',
+                    ajax: "/categories",
                     columns: [{
                         data: 'id'
                     }, {
                         data: 'name'
                     }, {
                         data: 'type'
+                    }, {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     }, ],
+
                 }),
 
                 $('#add-cat').click(function() {
